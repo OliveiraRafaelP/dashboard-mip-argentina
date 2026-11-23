@@ -1,0 +1,24 @@
+# Documentos de trabajo: no se publican
+PLANO_DASHBOARD.md
+CLAUDE.md
+claude/
+
+# Esta versión publica solo la página: los scripts de R, la tabla de
+# correspondencia de trabajo (la página usa datos/correspondencia.json) y los
+# resultados intermedios no van al repositorio
+scripts/
+correspondencias/
+resultados/
+
+# Archivos temporales de R, de Office y del sistema
+.Rhistory
+.RData
+.Rproj.user/
+~$*
+Thumbs.db
+desktop.ini
+
+# Objetos de R y planillas: nunca van al repositorio
+*.rds
+*.xlsx
+*.xls

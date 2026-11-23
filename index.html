@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Versión preliminar: se pide a los buscadores que no listen la página. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Análisis exploratorios de la economía argentina</title>
+  <meta name="description" content="Sectores clave, extracción hipotética, localización y especialización regional y destino de las exportaciones de la economía argentina.">
+  <!-- Sin ícono propio por ahora: con esto el navegador no lo pide al servidor. -->
+  <link rel="icon" href="data:,">
+  <!-- Estilos de KaTeX (fórmulas), grabados en esta misma carpeta. -->
+  <link rel="stylesheet" href="js/vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <!-- ===================== Encabezado ===================== -->
+  <header class="encabezado">
+    <div class="contenido encabezado-columnas">
+      <div class="encabezado-principal">
+        <h1>Análisis exploratorios de la economía argentina <!-- Etiqueta de versión preliminar: para quitarla, borrar este <span>. --><span class="etiqueta-preliminar">Versión preliminar</span></h1>
+        <p class="descripcion">Sectores clave, extracción hipotética, localización y especialización regional y destino de las exportaciones, con la matriz insumo-producto nacional de <span data-dato="anioMatriz"></span>. Elija un sector y una provincia: los gráficos se actualizan.</p>
+      </div>
+      <div class="encabezado-lateral">
+        <p class="fuentes"><strong>Fuentes:</strong> Matriz insumo-producto de Argentina <span data-dato="anioMatriz"></span> (Haddad, Araújo y Elosegui, 2026, NEREUS-USP); valor agregado bruto por jurisdicción, <span data-dato="anioPrimero"></span>-<span data-dato="anioUltimo"></span> (planilla provista por Pedro Elosegui); exportaciones por país de destino (INDEC).</p>
+        <div class="botones-encabezado">
+          <button type="button" class="boton" data-ir-a="metodologia">Metodología</button>
+          <button type="button" class="boton" data-ir-a="insumos">Insumos</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== Faja de filtros (queda fija arriba) ===================== -->
+  <div class="faja-filtros" role="region" aria-label="Filtros">
+    <div class="contenido filtros">
+      <div class="filtro filtro-sector">
+        <label for="filtro-sector">Sector <span class="conteo" id="conteo-sectores"></span></label>
+        <div class="combo">
+          <input id="filtro-sector" type="text" role="combobox" aria-expanded="false" aria-controls="lista-sectores"
+                 aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Buscar un sector…">
+          <ul id="lista-sectores" role="listbox" aria-label="Sectores de la matriz" hidden></ul>
+        </div>
+      </div>
+      <div class="filtro filtro-agregado">
+        <span class="rotulo-filtro">Agregado provincial <span class="conteo" id="conteo-agregado"></span></span>
+        <p class="agregado">
+          <span class="solo-celular">Agregado provincial: </span><strong id="agregado-provincial">…</strong>
+          <button type="button" class="enlace" id="ver-correspondencia">ver correspondencia</button>
+        </p>
+      </div>
+      <div class="filtro filtro-provincia">
+        <label for="filtro-provincia">Provincia <span class="conteo" id="conteo-provincias"></span></label>
+        <select id="filtro-provincia"></select>
+      </div>
+    </div>
+  </div>
+
+  <main class="contenido">
+    <p id="aviso-error" class="aviso-error" role="alert" hidden></p>
+
+    <!-- ===================== Faja 1 ===================== -->
+    <section class="faja" id="faja-1">
+      <header class="faja-cabecera">
+        <h2><span class="faja-numero">1</span>Índices de encadenamiento</h2>
+        <p>Sectores clave e índices de encadenamiento hacia atrás y hacia adelante (Rasmussen-Hirschman): el mapa de los <span data-dato="nSectores"></span> sectores, el ranking y cuánto se reparte el efecto de cada sector. Resultados con la matriz insumo-producto nacional de <span data-dato="anioMatriz"></span>, sector por sector.</p>
+      </header>
+      <div class="faja-cuadros">
+        <article class="cuadro" id="cuadro-F1-1" data-grafico="cuadrantes"></article>
+        <article class="cuadro" id="cuadro-F1-2" data-grafico="ranking"></article>
+        <article class="cuadro" id="cuadro-F1-3" data-grafico="dispersionUV"></article>
+      </div>
+    </section>
+
+    <!-- ===================== Faja 2 ===================== -->
+    <section class="faja" id="faja-2">
+      <header class="faja-cabecera">
+        <h2><span class="faja-numero">2</span>Extracción hipotética de sectores</h2>
+        <p>¿Cuánto caería la producción del país si el sector dejara de existir? La pérdida total y sus componentes, los <span data-dato="nAfectados" data-forma="palabra"></span> sectores más afectados y la comparación con los demás sectores. Matriz insumo-producto nacional de <span data-dato="anioMatriz"></span>.</p>
+      </header>
+      <div class="faja-cuadros">
+        <article class="cuadro" id="cuadro-F2-1" data-grafico="cascada"></article>
+        <article class="cuadro" id="cuadro-F2-2" data-grafico="afectados"></article>
+        <article class="cuadro" id="cuadro-F2-3" data-grafico="comparacion"></article>
+      </div>
+    </section>
+
+    <!-- ===================== Faja 3 ===================== -->
+    <section class="faja" id="faja-3">
+      <header class="faja-cabecera">
+        <h2><span class="faja-numero">3</span>Distribución regional del sector</h2>
+        <p>¿En qué provincias se concentra el sector? Cociente de localización (mapa), coeficiente de localización y curva de localización. Valor agregado bruto provincial de <span data-dato="anioDetalle"></span>, agregado de <span data-dato="nAgregado"></span> sectores.</p>
+      </header>
+      <div class="faja-cuadros">
+        <article class="cuadro" id="cuadro-F3-1" data-grafico="mapaQL"></article>
+        <article class="cuadro" id="cuadro-F3-2" data-grafico="localizacion"></article>
+        <article class="cuadro" id="cuadro-F3-3" data-grafico="curva"></article>
+      </div>
+    </section>
+
+    <!-- ===================== Faja 4 ===================== -->
+    <section class="faja" id="faja-4">
+      <header class="faja-cabecera">
+        <h2><span class="faja-numero">4</span>Redistribución y asociación geográfica</h2>
+        <p>¿Cambió la distribución del sector entre las provincias desde <span data-dato="anioInicial"></span> (coeficiente de redistribución)? ¿Con qué otros sectores comparte territorio (asociación geográfica)? Valor agregado bruto provincial, agregado de <span data-dato="nAgregado"></span> sectores.</p>
+      </header>
+      <div class="faja-cuadros">
+        <article class="cuadro" id="cuadro-F4-1" data-grafico="redistribucion"></article>
+        <article class="cuadro" id="cuadro-F4-2" data-grafico="asociacion"></article>
+      </div>
+    </section>
+
+    <!-- ===================== Faja 5 ===================== -->
+    <section class="faja" id="faja-5">
+      <header class="faja-cabecera">
+        <h2><span class="faja-numero">5</span>Especialización y cambio estructural de la provincia</h2>
+        <p>¿Cuánto se aparta la estructura productiva de la provincia de la del país (coeficiente de especialización, <span data-dato="anioPrimero"></span>-<span data-dato="anioUltimo"></span>)? ¿Cuánto cambió esa estructura desde <span data-dato="anioInicial"></span> (coeficiente de reestructuración)? Valor agregado bruto provincial.</p>
+      </header>
+      <div class="faja-cuadros">
+        <article class="cuadro" id="cuadro-F5-1" data-grafico="mapaEspecializacion"></article>
+        <article class="cuadro" id="cuadro-F5-2" data-grafico="evolucion"></article>
+        <article class="cuadro" id="cuadro-F5-3" data-grafico="reestructuracion"></article>
+      </div>
+    </section>
+
+    <!-- ===================== Faja 6 ===================== -->
+    <section class="faja" id="faja-6">
+      <header class="faja-cabecera">
+        <h2><span class="faja-numero">6</span>Destino de las exportaciones</h2>
+        <p>¿A qué países exporta el sector? Principales destinos en el mapa y participación de cada uno. Disponible para <span data-dato="nConDestinos" data-forma="palabra"></span> sectores; bases de exportaciones del INDEC, <span data-dato="anioExportaciones"></span>.</p>
+      </header>
+      <div class="faja-cuadros">
+        <article class="cuadro" id="cuadro-F6-1" data-grafico="mapaDestinos"></article>
+        <article class="cuadro" id="cuadro-F6-2" data-grafico="barrasDestinos"></article>
+      </div>
+    </section>
+
+    <!-- ===================== Secciones finales ===================== -->
+    <section class="faja seccion-final" id="metodologia">
+      <header class="faja-cabecera"><h2>Metodología</h2></header>
+      <p class="en-construccion">En construcción</p>
+    </section>
+    <section class="faja seccion-final" id="insumos">
+      <header class="faja-cabecera"><h2>Insumos</h2></header>
+      <p class="en-construccion">En construcción</p>
+    </section>
+  </main>
+
+  <!-- ===================== Pie de página: el equipo ===================== -->
+  <footer class="pie">
+    <div class="contenido">
+      <p>Daniel Goldenberg, David Alves, Gabriela de Queiroz y Rafael Oliveira. Trabajo del curso EAE6083, Análisis de Insumo-Producto (FEA-USP), 2026.</p>
+    </div>
+  </footer>
+
+  <!-- La vista ampliada de un gráfico -->
+  <dialog id="ventana-ampliada" class="ampliado" aria-label="Vista ampliada"></dialog>
+
+  <!-- La tabla de correspondencia entre los sectores de la matriz y los de la planilla provincial -->
+  <dialog id="ventana-correspondencia" class="ampliado" aria-labelledby="titulo-correspondencia"></dialog>
+
+  <!-- Bibliotecas, grabadas en esta misma carpeta: la página no necesita internet. -->
+  <script src="js/vendor/d3.min.js"></script>
+  <script src="js/vendor/plot.umd.min.js"></script>
+  <script src="js/vendor/katex/katex.min.js"></script>
+  <script type="module" src="js/principal.js"></script>
+</body>
+</html>

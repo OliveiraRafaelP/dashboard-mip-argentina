@@ -1,0 +1,459 @@
+{
+ "nota": "Textos de metodología e insumos de la página. Las fórmulas están en LaTeX. Entre llaves, valores que la página completa con los datos.",
+ "general": {
+  "titulo": "Metodología",
+  "parrafos": [
+   "Esta página reúne cuatro análisis de la economía argentina hechos en el curso EAE6083 (FEA-USP). El método de cada análisis está en el reverso de su cuadro: el botón 'Metodología' de cada cuadro lo da vuelta y muestra la fórmula, el significado de los símbolos, cómo leer el resultado y de qué datos sale.",
+   "Las fajas de encadenamientos, de extracción hipotética y de exportaciones usan la matriz insumo-producto nacional de {anio_matriz}, sector por sector, con {n_sectores} sectores, en el modelo abierto de Leontief: $x=(I-A)^{-1}f$.",
+   "Las fajas regionales usan el valor agregado bruto por jurisdicción y sector, de {anio_inicial} a {anio_final}, con {n_provincias} jurisdicciones y {n_agregados} sectores, a precios de {anio_precios}. La jurisdicción 'No distribuido' de esa planilla se repartió entre las {n_provincias} jurisdicciones en proporción a su VAB total de cada año.",
+   "Las dos bases no usan la misma clasificación. Para pasar de los {n_sectores} sectores de la matriz a los {n_agregados} de la planilla provincial armamos una correspondencia propia: casi todos los sectores se asignaron por la descripción de la actividad, algunos por su posición en la CIIU y otros al sector 'Resto' de la planilla; no es una tabla oficial. Puede consultarse en el enlace 'ver correspondencia', junto al filtro de sector."
+  ],
+  "limites_titulo": "Alcance y límites",
+  "limites": [
+   "Los índices de encadenamiento y la extracción hipotética son resultados nacionales: no hay, en esta versión, un modelo por provincia.",
+   "El destino de las exportaciones está abierto por país para {n_con_destinos} sectores; para los demás se muestra el valor de las exportaciones en la matriz.",
+   "En las fajas regionales, los sectores de la matriz que corresponden a un mismo sector de la planilla provincial muestran los mismos gráficos.",
+   "Los datos de {anio_penultimo} y {anio_final} de la planilla provincial son provisorios o preliminares."
+  ]
+ },
+ "cuadros": {
+  "F1.1": {
+   "titulo": "Índices de encadenamiento de Rasmussen-Hirschman",
+   "formulas": [
+    "U_j=\\dfrac{B_{\\cdot j}/n}{B^{*}}",
+    "U_i=\\dfrac{B_{i\\cdot}/n}{B^{*}}",
+    "B^{*}=\\dfrac{1}{n^{2}}\\sum_{i}\\sum_{j}b_{ij}"
+   ],
+   "simbolos": [
+    {
+     "s": "b_{ij}",
+     "t": "elemento de la inversa de Leontief, $B=(I-A)^{-1}$"
+    },
+    {
+     "s": "B_{\\cdot j},\\; B_{i\\cdot}",
+     "t": "suma de la columna $j$ y de la fila $i$ de $B$"
+    },
+    {
+     "s": "B^{*}",
+     "t": "promedio de todos los elementos de $B$"
+    },
+    {
+     "s": "n",
+     "t": "número de sectores"
+    }
+   ],
+   "origen": "Script 02_sectores_clave.R. Diapositivas del profesor: Aula 3a, 4 a 14. Matriz insumo-producto nacional de {anio_matriz}, sector por sector ({n_sectores} sectores).",
+   "lectura": "$U_j>1$: un aumento de un peso en la demanda final del sector eleva la producción de la economía más que el promedio (encadenamiento hacia atrás). $U_i>1$: un aumento de un peso en la demanda final de todos los sectores eleva la producción del sector más que el promedio (hacia adelante). Sector clave: $U_j>1$ y $U_i>1$."
+  },
+  "F1.2": {
+   "titulo": "Ranking de los índices de encadenamiento",
+   "formulas": [
+    "U_j=\\dfrac{B_{\\cdot j}/n}{B^{*}}",
+    "U_i=\\dfrac{B_{i\\cdot}/n}{B^{*}}",
+    "B^{*}=\\dfrac{1}{n^{2}}\\sum_{i}\\sum_{j}b_{ij}"
+   ],
+   "simbolos": [
+    {
+     "s": "b_{ij}",
+     "t": "elemento de la inversa de Leontief, $B=(I-A)^{-1}$"
+    },
+    {
+     "s": "B_{\\cdot j},\\; B_{i\\cdot}",
+     "t": "suma de la columna $j$ y de la fila $i$ de $B$"
+    },
+    {
+     "s": "B^{*}",
+     "t": "promedio de todos los elementos de $B$"
+    },
+    {
+     "s": "n",
+     "t": "número de sectores"
+    }
+   ],
+   "origen": "Script 02_sectores_clave.R. Diapositivas del profesor: Aula 3a, 4 a 14. Matriz insumo-producto nacional de {anio_matriz}, sector por sector ({n_sectores} sectores).",
+   "lectura": "Los sectores se ordenan de mayor a menor por cada índice; el número delante del nombre es el puesto entre los {n_sectores} sectores. Un índice igual a 1 es el promedio de la economía."
+  },
+  "F1.3": {
+   "titulo": "Coeficientes de variación de los encadenamientos",
+   "formulas": [
+    "V_{\\cdot j}=\\dfrac{\\sqrt{\\dfrac{1}{n-1}\\sum_{i}\\left(b_{ij}-\\dfrac{B_{\\cdot j}}{n}\\right)^{2}}}{B_{\\cdot j}/n}",
+    "V_{i\\cdot}=\\dfrac{\\sqrt{\\dfrac{1}{n-1}\\sum_{j}\\left(b_{ij}-\\dfrac{B_{i\\cdot}}{n}\\right)^{2}}}{B_{i\\cdot}/n}"
+   ],
+   "simbolos": [
+    {
+     "s": "b_{ij}",
+     "t": "elemento de la inversa de Leontief, $B=(I-A)^{-1}$"
+    },
+    {
+     "s": "B_{\\cdot j},\\; B_{i\\cdot}",
+     "t": "suma de la columna $j$ y de la fila $i$ de $B$"
+    },
+    {
+     "s": "n",
+     "t": "número de sectores"
+    }
+   ],
+   "lectura": "$V_{\\cdot j}$ acompaña a $U_j$ y $V_{i\\cdot}$ acompaña a $U_i$. Cuanto menor es $V$, entre más sectores se reparte el encadenamiento; un $V$ alto indica que depende de pocos sectores.",
+   "origen": "Script 02_sectores_clave.R. Diapositivas del profesor: Aula 3a, 4 a 14. Matriz insumo-producto nacional de {anio_matriz}, sector por sector ({n_sectores} sectores)."
+  },
+  "F2.1": {
+   "titulo": "Extracción hipotética: de dónde viene la pérdida",
+   "formulas": [
+    "x=(I-A)^{-1}f \\qquad x(j)=\\bigl(I-A(j)\\bigr)^{-1}f(j)",
+    "T_j=\\mathbf{i}'x-\\mathbf{i}'x(j)",
+    "T_j=f_j+(x_j-f_j)+(T_j-x_j)"
+   ],
+   "simbolos": [
+    {
+     "s": "A,\\; f",
+     "t": "matriz de coeficientes técnicos y vector de demanda final"
+    },
+    {
+     "s": "A(j),\\; f(j)",
+     "t": "las mismas, con la fila y la columna del sector $j$ y su demanda final en cero"
+    },
+    {
+     "s": "x,\\; x(j)",
+     "t": "producción con y sin el sector $j$"
+    },
+    {
+     "s": "T_j",
+     "t": "pérdida total de producción"
+    },
+    {
+     "s": "\\mathbf{i}",
+     "t": "vector de unos: $\\mathbf{i}'x$ es la suma de la producción de todos los sectores"
+    }
+   ],
+   "lectura": "La pérdida total se separa en tres partes: lo que el sector vendía a la demanda final ($f_j$), lo que vendía como insumo ($x_j-f_j$) y lo que dejan de producir los demás sectores ($T_j-x_j$). El subtítulo muestra $(T_j-x_j)/x_j$: cuánto pierden los demás por cada peso que deja de producir el sector.",
+   "origen": "Scripts 03_extraccion_hipotetica.R y 07_extraccion_todos_sectores.R. Diapositivas del profesor: Aula 3c, 5 a 8. Matriz insumo-producto nacional de {anio_matriz}, sector por sector ({n_sectores} sectores)."
+  },
+  "F2.2": {
+   "titulo": "Sectores más afectados por la extracción",
+   "formulas": [
+    "\\Delta x_i=x_i-x_i(j),\\qquad i\\neq j",
+    "\\Delta x_i\\,\\%=100\\cdot\\dfrac{x_i-x_i(j)}{x_i}"
+   ],
+   "simbolos": [
+    {
+     "s": "x_i",
+     "t": "producción del sector $i$ en la economía completa"
+    },
+    {
+     "s": "x_i(j)",
+     "t": "producción del sector $i$ cuando se extrae el sector $j$"
+    }
+   ],
+   "lectura": "Se muestran los {n_afectados} sectores que más producción pierden cuando se extrae el sector elegido, sin contar al propio sector. Entre paréntesis, la pérdida como porcentaje de la producción de cada uno.",
+   "origen": "Scripts 03_extraccion_hipotetica.R y 07_extraccion_todos_sectores.R. Diapositivas del profesor: Aula 3c, 5 a 8. Matriz insumo-producto nacional de {anio_matriz}, sector por sector ({n_sectores} sectores)."
+  },
+  "F2.3": {
+   "titulo": "Pérdida de la economía al extraer cada sector",
+   "formulas": [
+    "\\text{VBP: } 100\\cdot\\dfrac{T_j}{\\mathbf{i}'x}",
+    "\\text{VAB: } 100\\cdot\\dfrac{\\sum_i v_i\\,\\bigl(x_i-x_i(j)\\bigr)}{\\sum_i v_i\\,x_i}",
+    "\\text{Exportaciones: } 100\\cdot\\dfrac{e_j}{\\sum_i e_i}"
+   ],
+   "simbolos": [
+    {
+     "s": "v_i",
+     "t": "valor agregado por peso de producción del sector $i$; para los impuestos se usa, del mismo modo, impuestos a los productos más IVA por peso de producción"
+    },
+    {
+     "s": "e_i",
+     "t": "exportaciones del sector $i$ (columna de exportaciones de la matriz); $e_j$, las del sector extraído"
+    },
+    {
+     "s": "T_j,\\; x",
+     "t": "pérdida total y producción, como en el cuadro de la cascada"
+    },
+    {
+     "s": "\\mathbf{i}",
+     "t": "vector de unos: $\\mathbf{i}'x$ es la suma de la producción de todos los sectores"
+    }
+   ],
+   "lectura": "Cada punto es la extracción de un sector. La altura es lo que pierde la economía en esa variable, en porcentaje de su total. Sirve para comparar el sector elegido con los demás.",
+   "origen": "Script 03_extraccion_hipotetica.R (tabla de los {n_sectores} sectores). Diapositivas del profesor: Aula 3c, 8 (pérdida en porcentaje de la producción total); para el valor agregado, los impuestos y las exportaciones no hay diapositiva: la cuenta es la del script. Matriz insumo-producto nacional de {anio_matriz}, sector por sector ({n_sectores} sectores)."
+  },
+  "F3.1": {
+   "titulo": "Cociente de localización",
+   "formulas": [
+    "QL_{ij}=\\dfrac{X_{ij}/X_{\\cdot j}}{X_{i\\cdot}/X_{\\cdot\\cdot}}"
+   ],
+   "simbolos": [
+    {
+     "s": "X_{ij}",
+     "t": "VAB del sector $j$ en la provincia $i$"
+    },
+    {
+     "s": "X_{i\\cdot}",
+     "t": "VAB total de la provincia $i$"
+    },
+    {
+     "s": "X_{\\cdot j}",
+     "t": "VAB del sector $j$ en el país"
+    },
+    {
+     "s": "X_{\\cdot\\cdot}",
+     "t": "VAB total del país"
+    }
+   ],
+   "lectura": "Compara la parte de la provincia en el sector con su parte en el total de la economía. $QL>1$: la provincia tiene más de ese sector que su parte esperada. $QL<1$: tiene menos.",
+   "origen": "Script 04_medidas_regionales.R. Diapositivas del profesor: Aula 3d, 9 a 11. Valor agregado bruto por jurisdicción y sector ({n_provincias} jurisdicciones, {n_agregados} sectores), a precios de {anio_precios}."
+  },
+  "F3.2": {
+   "titulo": "Coeficiente de localización",
+   "formulas": [
+    "CL_{j}=\\dfrac{1}{2}\\sum_{i}\\left|\\dfrac{X_{ij}}{X_{\\cdot j}}-\\dfrac{X_{i\\cdot}}{X_{\\cdot\\cdot}}\\right|"
+   ],
+   "simbolos": [
+    {
+     "s": "X_{ij}",
+     "t": "VAB del sector $j$ en la provincia $i$"
+    },
+    {
+     "s": "X_{i\\cdot}",
+     "t": "VAB total de la provincia $i$"
+    },
+    {
+     "s": "X_{\\cdot j}",
+     "t": "VAB del sector $j$ en el país"
+    },
+    {
+     "s": "X_{\\cdot\\cdot}",
+     "t": "VAB total del país"
+    }
+   ],
+   "lectura": "Va de 0 a 1. 0: el sector se reparte entre las provincias igual que el total de la economía. Cerca de 1: está concentrado en provincias con poco peso en el total.",
+   "origen": "Script 04_medidas_regionales.R. Diapositivas del profesor: Aula 3d, 14 y 15 (métrica general) y 16 y 17. Valor agregado bruto por jurisdicción y sector ({n_provincias} jurisdicciones, {n_agregados} sectores), a precios de {anio_precios}."
+  },
+  "F3.3": {
+   "titulo": "Curva de localización",
+   "formulas": [
+    "s_{ij}=\\dfrac{X_{ij}}{X_{\\cdot j}}",
+    "C_j(k)=\\sum_{m=1}^{k}s_{(m)j}"
+   ],
+   "simbolos": [
+    {
+     "s": "s_{ij}",
+     "t": "participación de la provincia $i$ en el VAB del sector $j$"
+    },
+    {
+     "s": "s_{(m)j}",
+     "t": "la $m$-ésima mayor de esas participaciones"
+    },
+    {
+     "s": "C_j(k)",
+     "t": "participación acumulada de las $k$ primeras provincias"
+    }
+   ],
+   "lectura": "Las provincias se ordenan de la que más tiene a la que menos y se acumulan sus participaciones. Cuanto más rápido sube la curva, en menos provincias se concentra el sector. El orden de las provincias es propio de cada curva.",
+   "origen": "Script 04_medidas_regionales.R. Diapositivas del profesor: Aula 3d, 25 y 26. Valor agregado bruto por jurisdicción y sector ({n_provincias} jurisdicciones, {n_agregados} sectores), a precios de {anio_precios}."
+  },
+  "F4.1": {
+   "titulo": "Coeficiente de redistribución",
+   "formulas": [
+    "CR_{j}=\\dfrac{1}{2}\\sum_{i}\\left|\\left(\\dfrac{X_{ij}}{X_{\\cdot j}}\\right)_{t_1}-\\left(\\dfrac{X_{ij}}{X_{\\cdot j}}\\right)_{t_0}\\right|"
+   ],
+   "simbolos": [
+    {
+     "s": "X_{ij}",
+     "t": "VAB del sector $j$ en la provincia $i$"
+    },
+    {
+     "s": "X_{\\cdot j}",
+     "t": "VAB del sector $j$ en el país"
+    },
+    {
+     "s": "t_0,\\; t_1",
+     "t": "año inicial ({anio_inicial}) y año final de la comparación"
+    }
+   ],
+   "lectura": "Va de 0 a 1. 0: el sector se reparte entre las provincias igual que en el año inicial. Cuanto mayor, más cambió de lugar.",
+   "origen": "Script 04_medidas_regionales.R. Diapositivas del profesor: Aula 3d, 14 y 15 (métrica general) y 22 y 23. Valor agregado bruto por jurisdicción y sector ({n_provincias} jurisdicciones, {n_agregados} sectores), a precios de {anio_precios}."
+  },
+  "F4.2": {
+   "titulo": "Coeficiente de asociación geográfica",
+   "formulas": [
+    "CAG_{jk}=\\dfrac{1}{2}\\sum_{i}\\left|\\dfrac{X_{ij}}{X_{\\cdot j}}-\\dfrac{X_{ik}}{X_{\\cdot k}}\\right|"
+   ],
+   "simbolos": [
+    {
+     "s": "X_{ij}/X_{\\cdot j}",
+     "t": "participación de la provincia $i$ en el VAB del sector $j$"
+    },
+    {
+     "s": "X_{ik}/X_{\\cdot k}",
+     "t": "lo mismo para el sector $k$"
+    }
+   ],
+   "lectura": "Va de 0 a 1. 0: los dos sectores se reparten entre las provincias de la misma manera. Cerca de 1: están en provincias distintas.",
+   "origen": "Script 04_medidas_regionales.R. Diapositivas del profesor: Aula 3d, 14 y 15 (métrica general) y 19 y 20. Valor agregado bruto por jurisdicción y sector ({n_provincias} jurisdicciones, {n_agregados} sectores), a precios de {anio_precios}."
+  },
+  "F5.1": {
+   "titulo": "Coeficiente de especialización",
+   "formulas": [
+    "CE_{i}=\\dfrac{1}{2}\\sum_{j}\\left|\\dfrac{X_{ij}}{X_{i\\cdot}}-\\dfrac{X_{\\cdot j}}{X_{\\cdot\\cdot}}\\right|"
+   ],
+   "simbolos": [
+    {
+     "s": "X_{ij}",
+     "t": "VAB del sector $j$ en la provincia $i$"
+    },
+    {
+     "s": "X_{i\\cdot}",
+     "t": "VAB total de la provincia $i$"
+    },
+    {
+     "s": "X_{\\cdot j}",
+     "t": "VAB del sector $j$ en el país"
+    },
+    {
+     "s": "X_{\\cdot\\cdot}",
+     "t": "VAB total del país"
+    }
+   ],
+   "lectura": "Va de 0 a 1. 0: la estructura productiva de la provincia es igual a la del país. Cuanto mayor, más se aparta de ella.",
+   "origen": "Script 04_medidas_regionales.R. Diapositivas del profesor: Aula 3d, 14 y 15 (métrica general) y 29 y 30. Valor agregado bruto por jurisdicción y sector ({n_provincias} jurisdicciones, {n_agregados} sectores), a precios de {anio_precios}."
+  },
+  "F5.2": {
+   "titulo": "Evolución del coeficiente de especialización",
+   "formulas": [
+    "CE_{i,t}=\\dfrac{1}{2}\\sum_{j}\\left|\\dfrac{X_{ij,t}}{X_{i\\cdot,t}}-\\dfrac{X_{\\cdot j,t}}{X_{\\cdot\\cdot,t}}\\right|"
+   ],
+   "simbolos": [
+    {
+     "s": "t",
+     "t": "año; todas las cantidades se toman en ese año y el coeficiente se calcula de nuevo con los datos de cada año"
+    },
+    {
+     "s": "X_{ij}",
+     "t": "VAB del sector $j$ en la provincia $i$"
+    },
+    {
+     "s": "X_{i\\cdot}",
+     "t": "VAB total de la provincia $i$"
+    },
+    {
+     "s": "X_{\\cdot j}",
+     "t": "VAB del sector $j$ en el país"
+    },
+    {
+     "s": "X_{\\cdot\\cdot}",
+     "t": "VAB total del país"
+    }
+   ],
+   "lectura": "Si la línea sube, la estructura productiva de la provincia se aleja de la del país; si baja, se acerca.",
+   "origen": "Script 04_medidas_regionales.R. Diapositivas del profesor: Aula 3d, 29 y 30. Valor agregado bruto por jurisdicción y sector ({n_provincias} jurisdicciones, {n_agregados} sectores), a precios de {anio_precios}."
+  },
+  "F5.3": {
+   "titulo": "Coeficiente de reestructuración",
+   "formulas": [
+    "CT_{i}=\\dfrac{1}{2}\\sum_{j}\\left|\\left(\\dfrac{X_{ij}}{X_{i\\cdot}}\\right)_{t_1}-\\left(\\dfrac{X_{ij}}{X_{i\\cdot}}\\right)_{t_0}\\right|"
+   ],
+   "simbolos": [
+    {
+     "s": "X_{ij}",
+     "t": "VAB del sector $j$ en la provincia $i$"
+    },
+    {
+     "s": "X_{i\\cdot}",
+     "t": "VAB total de la provincia $i$"
+    },
+    {
+     "s": "t_0,\\; t_1",
+     "t": "año inicial ({anio_inicial}) y año final ({anio_matriz}, el de la matriz insumo-producto nacional)"
+    }
+   ],
+   "lectura": "Va de 0 a 1. 0: la provincia tiene la misma estructura productiva que en el año inicial. Cuanto mayor, más cambió.",
+   "origen": "Script 04_medidas_regionales.R. Diapositivas del profesor: Aula 3d, 14 y 15 (métrica general) y 32 y 33. Valor agregado bruto por jurisdicción y sector ({n_provincias} jurisdicciones, {n_agregados} sectores), a precios de {anio_precios}."
+  },
+  "F6.1": {
+   "titulo": "Exportaciones por país de destino",
+   "formulas": [
+    "s_{jp}=\\dfrac{FOB_{jp}}{\\sum_{q}FOB_{jq}}",
+    "EX_{jp}=s_{jp}\\cdot EX_{j}"
+   ],
+   "simbolos": [
+    {
+     "s": "FOB_{jp}",
+     "t": "exportaciones de los productos del sector $j$ al país $p$, en dólares FOB (bases del INDEC)"
+    },
+    {
+     "s": "EX_j",
+     "t": "exportaciones del sector $j$ en la matriz insumo-producto"
+    },
+    {
+     "s": "s_{jp}",
+     "t": "participación del país $p$"
+    }
+   ],
+   "lectura": "Se suman los productos de la Nomenclatura Común del Mercosur que corresponden al sector, se reparte ese total entre países y el reparto se aplica a la columna de exportaciones de la matriz. Cuando en un producto un país tiene pocos operadores, el INDEC lo informa como 'Confidencial'.",
+   "origen": "Script 05_exportaciones_por_destino.R. Bases de exportaciones de {anio_exportaciones} del INDEC (dólares FOB) y columna de exportaciones de la matriz insumo-producto."
+  },
+  "F6.2": {
+   "titulo": "Principales destinos de las exportaciones",
+   "formulas": [
+    "s_{jp}=\\dfrac{FOB_{jp}}{\\sum_{q}FOB_{jq}}",
+    "EX_{jp}=s_{jp}\\cdot EX_{j}"
+   ],
+   "simbolos": [
+    {
+     "s": "FOB_{jp}",
+     "t": "exportaciones de los productos del sector $j$ al país $p$, en dólares FOB (bases del INDEC)"
+    },
+    {
+     "s": "EX_j",
+     "t": "exportaciones del sector $j$ en la matriz insumo-producto"
+    },
+    {
+     "s": "s_{jp}",
+     "t": "participación del país $p$"
+    }
+   ],
+   "lectura": "Se suman los productos de la Nomenclatura Común del Mercosur que corresponden al sector, se reparte ese total entre países y el reparto se aplica a la columna de exportaciones de la matriz. Cuando en un producto un país tiene pocos operadores, el INDEC lo informa como 'Confidencial'.",
+   "origen": "Script 05_exportaciones_por_destino.R. Bases de exportaciones de {anio_exportaciones} del INDEC (dólares FOB) y columna de exportaciones de la matriz insumo-producto."
+  }
+ },
+ "insumos": {
+  "titulo": "Insumos",
+  "intro": "Datos y materiales usados. Se indican la fuente y el contenido; los archivos no se distribuyen en esta página.",
+  "items": [
+   {
+    "nombre": "Matriz insumo-producto de Argentina, {anio_matriz}",
+    "descripcion": "Matriz nacional sector por sector, {n_sectores} sectores, en millones de pesos. De ella salen los índices de encadenamiento, la extracción hipotética y el valor de las exportaciones de cada sector.",
+    "fuente": "Haddad, E. A., Araújo, I. F. y Elosegui, P. (2026). Matriz Nacional de Insumo Producto para Argentina, 2022. NEREUS-USP."
+   },
+   {
+    "nombre": "Valor agregado bruto por jurisdicción y sector, {anio_inicial}-{anio_final}",
+    "descripcion": "{n_provincias} jurisdicciones y {n_agregados} sectores, a precios de {anio_precios}. De ella salen las medidas de localización y de especialización.",
+    "fuente": "Planilla provista por Pedro Elosegui. La planilla no indica la fuente original de la serie."
+   },
+   {
+    "nombre": "Exportaciones por producto y país de destino, {anio_exportaciones}",
+    "descripcion": "Bases anuales de exportaciones de bienes, por posición de la Nomenclatura Común del Mercosur y país de destino, en dólares FOB.",
+    "fuente": "Instituto Nacional de Estadística y Censos (INDEC)."
+   },
+   {
+    "nombre": "Límites provinciales",
+    "descripcion": "Contornos de las {n_provincias} jurisdicciones, simplificados para el dibujo de los mapas.",
+    "fuente": "Instituto Geográfico Nacional (IGN)."
+   },
+   {
+    "nombre": "Mapa del mundo",
+    "descripcion": "Contornos de los países y ubicación de las capitales, a escala 1:110 millones.",
+    "fuente": "Natural Earth."
+   },
+   {
+    "nombre": "Correspondencia entre los sectores de la matriz y los de la planilla provincial",
+    "descripcion": "Tabla que asigna cada uno de los {n_sectores} sectores de la matriz a uno de los {n_agregados} sectores de la planilla provincial, con el criterio y la justificación de cada asignación.",
+    "fuente": "Elaboración propia."
+   },
+   {
+    "nombre": "Material del curso",
+    "descripcion": "Diapositivas de las clases sobre sectores clave, extracción hipotética y medidas de localización y especialización, de donde se toma la notación de las fórmulas.",
+    "fuente": "Prof. Eduardo A. Haddad, curso EAE6083, Análisis de Insumo-Producto, FEA-USP, 2026."
+   }
+  ]
+ }
+}

@@ -1,0 +1,520 @@
+/* =============================================================================
+   estilo.css
+   La apariencia de la página. Los valores que también usa el JavaScript
+   (ancho máximo, margen lateral, color del destacado, colores del texto) llegan desde
+   js/parametros.js como variables; aquí les doy un valor de respaldo.
+   El formato de celular se activa con la clase "celular" en <body>, que pone
+   js/principal.js según el ancho indicado en los parámetros.
+   ============================================================================= */
+
+:root {
+  --ancho-maximo: 2200px;
+  --margen-lateral: 47px;
+  --color-filtros: #81BEC0;          /* fondo de la faja de filtros (llega desde js/parametros.js) */
+  --color-filtros-texto: #0B2F36;    /* textos sobre ese fondo */
+  --color-titulos: #007183;          /* títulos de las fajas y de las secciones finales, y círculo del número */
+  --color-destacado: #C00000;
+  --color-texto: #1F2933;
+  --color-texto-suave: #5F6B7A;
+  --color-fondo: #F4F5F7;
+  --color-tarjeta: #FFFFFF;
+  --color-borde: #DDE1E6;
+  --color-acento: #1F4E9E;
+  --sombra: 0 1px 2px rgba(31, 41, 51, 0.06), 0 2px 8px rgba(31, 41, 51, 0.05);
+  --radio: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+/* El contenido ocupa todo el ancho de la ventana, con un margen chico a cada
+   lado. El límite solo actúa en pantallas muy anchas. */
+.contenido {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: 0 var(--margen-lateral);
+}
+
+/* ---------- Encabezado ---------- */
+.encabezado {
+  background: var(--color-tarjeta);
+  border-bottom: 1px solid var(--color-borde);
+  padding: 24px 0 18px;
+}
+/* Dos columnas: título y descripción a la izquierda; fuentes y botones a la derecha. */
+.encabezado-columnas {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 12px 48px;
+  align-items: end;
+}
+.encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+/* Etiqueta discreta "Versión preliminar", junto al título. */
+.etiqueta-preliminar {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 6px;
+  padding: 2px 8px;
+  border: 1px solid var(--color-borde);
+  border-radius: 999px;
+  background: var(--color-fondo);
+  color: var(--color-texto-suave);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.encabezado p { margin: 0; }
+.descripcion { font-size: 16.5px; }
+.fuentes { color: var(--color-texto-suave); font-size: 13.5px; }
+.botones-encabezado { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+
+.boton {
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-acento);
+  background: var(--color-tarjeta);
+  border: 1.5px solid var(--color-acento);
+  border-radius: 8px;
+  padding: 7px 16px;
+  cursor: pointer;
+}
+.boton:hover { background: var(--color-acento); color: #fff; }
+/* Los botones del encabezado llevan los colores de la faja de filtros: fondo
+   verde y texto oscuro. Al pasar el cursor, los dos colores se invierten. */
+.botones-encabezado .boton { background: var(--color-filtros); border-color: var(--color-filtros); color: var(--color-filtros-texto); }
+.botones-encabezado .boton:hover { background: var(--color-filtros-texto); border-color: var(--color-filtros-texto); color: var(--color-filtros); }
+.botones-encabezado .boton:focus-visible { outline-color: var(--color-filtros-texto); }
+
+button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2.5px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+/* ---------- Faja de filtros ---------- */
+.faja-filtros {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--color-filtros);
+  box-shadow: 0 2px 8px rgba(31, 41, 51, 0.12);
+  padding: 10px 0;
+}
+/* Sobre el verde, los textos van en un tono oscuro; los campos siguen blancos. */
+.faja-filtros .filtro label, .faja-filtros .rotulo-filtro, .faja-filtros .conteo,
+.faja-filtros .agregado, .faja-filtros .enlace, body.celular .faja-filtros .solo-celular { color: var(--color-filtros-texto); }
+.faja-filtros .filtro input, .faja-filtros .filtro select { border-color: #4F8F92; }
+.faja-filtros button:focus-visible, .faja-filtros input:focus-visible, .faja-filtros select:focus-visible { outline-color: var(--color-filtros-texto); }
+.filtros {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.3fr) minmax(220px, 1.4fr) minmax(200px, 1fr);
+  gap: 18px;
+  align-items: end;
+}
+.filtro label, .rotulo-filtro {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-texto-suave);
+  margin-bottom: 3px;
+}
+/* Cuántos elementos hay en cada filtro: discreto, al lado del rótulo. */
+.conteo {
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-texto-suave);
+  margin-left: 3px;
+}
+.filtro input, .filtro select {
+  width: 100%;
+  font: inherit;
+  color: var(--color-texto);
+  background: #fff;
+  border: 1.5px solid #B8C0CA;
+  border-radius: 8px;
+  padding: 7px 10px;
+  height: 38px;
+}
+.agregado { margin: 0; min-height: 38px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; }
+.solo-celular { display: none; }
+.enlace {
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--color-acento);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* El selector de sector con búsqueda */
+.combo { position: relative; }
+.combo ul {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  max-height: min(60vh, 420px);
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(31, 41, 51, 0.18);
+}
+.combo li { padding: 6px 9px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+.combo li.activa, .combo li:hover { background: #E8EEF8; }
+.combo li.elegida { font-weight: 700; color: var(--color-destacado); }
+.combo li.sin-resultados { color: var(--color-texto-suave); cursor: default; background: none; }
+
+/* ---------- Fajas ---------- */
+.faja { margin: 30px 0 0; scroll-margin-top: 90px; }
+.faja-cabecera h2 {
+  margin: 0;
+  color: var(--color-titulos);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.faja-numero {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-titulos);
+  color: #fff;
+  font-size: 15px;
+}
+.faja-cabecera p { margin: 4px 0 0; color: var(--color-texto-suave); font-size: 14.5px; }
+/* Las columnas de cada faja (--columnas) las pone js/principal.js con las
+   proporciones de js/parametros.js. */
+.faja-cuadros {
+  display: grid;
+  grid-template-columns: var(--columnas, repeat(3, minmax(0, 1fr)));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+/* ---------- Cuadros ---------- */
+/* Cada cuadro tiene dos caras: el frente (el gráfico) y el reverso (la
+   metodología). El botón "Metodología" lo da vuelta: gira .cuadro-giro y cada
+   cara se ve solo de frente. El reverso ocupa exactamente el lugar del frente,
+   así el cuadro no cambia de tamaño ni mueve a sus vecinos.
+   El espacio en tres dimensiones existe solo mientras hace falta (clase
+   "con-giro", que pone js/cuadros.js durante el giro y mientras se ve el
+   reverso): un cuadro que muestra su frente es un cuadro común, con el
+   reverso escondido. */
+.cuadro {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cuadro-giro {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  min-width: 0;
+}
+.cuadro.con-giro { perspective: 1800px; }
+.cuadro.con-giro .cuadro-giro { transform-style: preserve-3d; transition: transform 0.5s ease; }
+.cuadro.con-giro .cuadro-cara { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.cuadro.girado .cuadro-giro { transform: rotateY(180deg); }
+.cuadro-cara {
+  background: var(--color-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cuadro-frente { flex: 1 1 auto; }
+/* En un cuadro muy angosto, los botones van arriba y el título debajo, a todo
+   el ancho: si no, al título no le queda lugar. */
+.cuadro-cara { container-type: inline-size; }
+@container (max-width: 330px) {
+  .cuadro-cabecera { flex-wrap: wrap; justify-content: flex-end; }
+  .cuadro-cabecera .cuadro-textos { order: 1; flex: 0 0 100%; }
+}
+.cuadro-reverso { position: absolute; inset: 0; overflow: hidden; visibility: hidden; }
+.cuadro.con-giro .cuadro-reverso { visibility: visible; transform: rotateY(180deg); }
+/* Quien pidió menos animaciones en su sistema ve el cambio sin giro. */
+@media (prefers-reduced-motion: reduce) { .cuadro.con-giro .cuadro-giro { transition: none; } }
+
+/* El contenido del reverso. La letra crece con --factor (lo calcula
+   js/metodologia.js para cada cuadro, según el lugar que hay): todas las
+   medidas de adentro están en "em", así crecen en la misma proporción.
+   Si con el tamaño de base el contenido no entra, se desplaza por dentro. */
+.reverso-cuerpo { flex: 1 1 0; min-height: 0; overflow-y: auto; margin-top: 8px; padding-right: 6px; --letra-base: 13.5px; font-size: calc(var(--letra-base) * var(--factor, 1)); line-height: 1.45; }
+/* Los cuatro bloques (fórmulas, símbolos, cómo leer, origen): si sobra lugar
+   a lo alto, el espacio se reparte entre ellos. */
+.reverso-contenido { min-height: 100%; display: flex; flex-direction: column; justify-content: space-evenly; gap: 0.9em; }
+.reverso-bloque { min-width: 0; }
+.formulas { padding: 0.15em 0 0; }
+/* Una fórmula nunca se corta a lo ancho: se achica o, si hace falta, se desplaza sola. */
+.formula { text-align: center; margin: 0.45em 0; padding: 0.22em 0; overflow-x: auto; overflow-y: hidden; }
+.formula:first-child { margin-top: 0; }
+.formula:last-child { margin-bottom: 0; }
+.formula .katex-display { margin: 0; }
+.reverso-rotulo { margin: 0 0 0.35em; font-size: 0.852em; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-texto-suave); }
+.simbolos { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3em 1.04em; margin: 0; align-items: baseline; }
+.simbolos dt { white-space: nowrap; }
+.simbolos dd { margin: 0; }
+.reverso-lectura { margin: 0; }
+.reverso-origen { margin: 0; font-size: 0.852em; line-height: 1.4; color: var(--color-texto-suave); }
+/* En la vista ampliada: letra de base más grande y una columna que se ensancha con la letra. */
+.ampliado-metodologia .reverso-cuerpo { --letra-base: 16.5px; width: 100%; max-width: 56em; margin: 14px auto 0; }
+.ampliado-metodologia .reverso-contenido { gap: 1.2em; }
+.cuadro-cabecera { display: flex; align-items: flex-start; gap: 8px; }
+.cuadro-textos { flex: 1; min-width: 0; }
+.cuadro-titulo { margin: 0; font-size: 15.5px; line-height: 1.25; font-weight: 700; text-wrap: balance; }
+.cuadro-subtitulo { margin: 3px 0 0; font-size: 13px; color: var(--color-texto-suave); line-height: 1.35; }
+.boton-cuadro {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  font-size: 17px;
+  line-height: 1;
+  color: var(--color-texto-suave);
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.boton-cuadro:hover { color: var(--color-texto); border-color: #9AA5B1; background: #F4F5F7; }
+/* Los botones con texto ("Metodología", "Ver gráfico"): el mismo estilo, más anchos. */
+.boton-texto { width: auto; padding: 0 9px; font: inherit; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.cuadro-controles:not(:empty) { margin-top: 10px; }
+.cuadro-grafico { margin-top: 10px; min-width: 0; flex: 1 0 auto; }
+.cuadro-grafico svg { display: block; max-width: 100%; }
+.cuadro-leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+  margin-top: 10px;
+  font-size: 12.5px;
+}
+.cuadro-nota { margin-top: auto; padding-top: 10px; }
+.cuadro-nota p { margin: 0; font-size: 11.5px; line-height: 1.4; color: var(--color-texto-suave); }
+
+/* Cuadros todavía sin gráfico */
+.cuadro-vacio { min-height: 170px; border-style: dashed; box-shadow: none; }
+.en-construccion {
+  margin: auto;
+  padding: 18px 0;
+  color: var(--color-texto-suave);
+  font-style: italic;
+  text-align: center;
+}
+/* ---------- Secciones finales: metodología e insumos ---------- */
+.seccion-final { background: var(--color-tarjeta); border: 1px solid var(--color-borde); border-radius: var(--radio); box-shadow: var(--sombra); padding: 20px 22px; }
+/* "Metodología" ocupa todo el ancho, en dos columnas: los párrafos en una y
+   "Alcance y límites" en la otra (proporciones en js/parametros.js). */
+.columnas-metodologia { display: grid; grid-template-columns: var(--columnas-metodologia, minmax(0, 3fr) minmax(0, 2fr)); gap: 0 44px; margin-top: 10px; }
+.columnas-metodologia p { margin: 0 0 10px; }
+.columnas-metodologia p:last-child { margin-bottom: 0; }
+.columnas-metodologia .enlace { font-size: inherit; }
+/* Las comillas van pegadas al enlace: no se separan al cambiar de renglón. */
+.sin-corte { white-space: nowrap; }
+.seccion-subtitulo { margin: 0 0 6px; font-size: 16px; }
+.limites { margin: 0; padding-left: 20px; }
+.limites li { margin-bottom: 4px; }
+/* "Insumos": la tabla ocupa todo el ancho; el lugar de más va a la descripción. */
+.tabla-insumos { width: 100%; margin-top: 12px; border-collapse: collapse; font-size: 14px; }
+.tabla-insumos th, .tabla-insumos td { text-align: left; vertical-align: top; padding: 9px 18px 9px 0; border-top: 1px solid var(--color-borde); }
+.tabla-insumos thead th { border-top: none; font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-texto-suave); padding-bottom: 5px; }
+.tabla-insumos tbody th { width: 310px; font-weight: 600; }
+.tabla-insumos td:last-child { width: 410px; color: var(--color-texto-suave); padding-right: 0; }
+body.medio .tabla-insumos tbody th { width: 24%; }
+body.medio .tabla-insumos td:last-child { width: 32%; }
+
+/* ---------- Tabla de correspondencia (en primer plano) ---------- */
+.correspondencia-busqueda { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+.correspondencia-busqueda input { flex: 0 1 380px; min-width: 0; font: inherit; height: 36px; padding: 6px 10px; border: 1.5px solid #B8C0CA; border-radius: 8px; }
+.correspondencia-conteo { font-size: 13px; color: var(--color-texto-suave); white-space: nowrap; }
+/* La tabla se desplaza en los dos sentidos dentro de este marco. */
+.correspondencia-marco { flex: 1 1 0; min-height: 0; overflow: auto; margin-top: 10px; border: 1px solid var(--color-borde); border-radius: 8px; }
+.tabla-correspondencia { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 13px; line-height: 1.35; }
+.tabla-correspondencia th { position: sticky; top: 0; z-index: 1; background: #EEF0F3; text-align: left; padding: 8px 10px; font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-texto-suave); white-space: nowrap; }
+.tabla-correspondencia td { padding: 6px 10px; vertical-align: top; border-top: 1px solid var(--color-borde); }
+.tabla-correspondencia td:nth-child(1), .tabla-correspondencia td:nth-child(3) { white-space: nowrap; }
+.tabla-correspondencia tbody tr { cursor: pointer; }
+.tabla-correspondencia tbody tr:hover, .tabla-correspondencia tbody tr:focus-visible { background: #E8EEF8; outline: none; }
+/* La fila del sector elegido en el filtro. */
+.tabla-correspondencia tbody tr.elegida { background: #FBEAEA; }
+.tabla-correspondencia tbody tr.elegida td:first-child { font-weight: 700; color: var(--color-destacado); box-shadow: inset 4px 0 0 var(--color-destacado); }
+
+/* Pie de página: el equipo */
+.pie { margin-top: 36px; padding: 18px 0 26px; background: var(--color-tarjeta); border-top: 1px solid var(--color-borde); }
+.pie p { margin: 0; font-size: 13.5px; color: var(--color-texto-suave); }
+
+/* Leyenda */
+.leyenda-item { display: inline-flex; align-items: center; gap: 6px; }
+.leyenda-marca { flex: none; display: inline-block; }
+.leyenda-punto { width: 10px; height: 10px; border-radius: 50%; }
+.leyenda-barra { width: 13px; height: 11px; border-radius: 2px; }
+.leyenda-anillo { width: 13px; height: 13px; border-radius: 50%; border: 2.5px solid; }
+.leyenda-borde { width: 14px; height: 11px; border: 2.5px solid; }
+.leyenda-rombo { width: 8px; height: 8px; transform: rotate(45deg); margin: 0 2px; }
+.leyenda-linea { width: 20px; height: 3px; border-radius: 2px; }
+.leyenda-titulo { font-weight: 600; color: var(--color-texto); flex-basis: 100%; }
+/* Mapa: un clic en una provincia la elige en el filtro. */
+.provincia { cursor: pointer; }
+/* Los mapas van centrados en su lugar. */
+.mapa-provincias, .mapa-mundo { margin: 0 auto; }
+.barra-colores { display: block; }
+/* Sector sin apertura por destino (faja 6): aviso y botones de los sectores que la tienen. */
+.mensaje-destinos { padding: 32px 16px; max-width: 560px; }
+.mensaje-destinos p { margin: 0 0 12px; font-size: 14px; }
+.mensaje-destinos .mensaje-principal { font-size: 16px; font-weight: 600; color: var(--color-texto); }
+.botones-sectores { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.boton-sector {
+  font: inherit; font-size: 13px; cursor: pointer;
+  padding: 6px 12px; border-radius: 8px;
+  border: 1.5px solid var(--color-acento); background: #fff; color: var(--color-acento);
+}
+.boton-sector:hover, .boton-sector:focus-visible { background: var(--color-acento); color: #fff; }
+
+/* Títulos de los ejes y de los paneles */
+.eje-titulo { font-size: 12px; color: var(--color-texto-suave); }
+.eje-titulo-y { margin-bottom: 4px; }
+.eje-titulo-x { text-align: center; margin-top: 2px; grid-column: 1 / -1; }
+.panel-titulo { font-size: 13px; font-weight: 600; text-align: center; margin: 4px 0 4px; height: 18px; }
+.cuadro-grafico.paneles-lado { display: grid; grid-template-columns: 1fr 1fr; column-gap: 18px; align-content: start; }
+/* Los cuatro paneles de la comparación (F2.3): las columnas las pone el JavaScript. */
+.paneles-rejilla { display: grid; align-content: start; }
+.panel-titulo-fuerte { font-weight: 700; }
+/* Barras en las que un clic elige otro sector. */
+.franja-clic { cursor: pointer; }
+/* Mensaje en lugar del gráfico, cuando no hay nada que dibujar. */
+.mensaje-vacio { margin: auto; padding: 48px 16px; text-align: center; color: var(--color-texto-suave); font-size: 15px; }
+.cuadro-grafico:has(> .mensaje-vacio) { display: flex; }
+.franja-fila:hover { fill: rgba(31, 41, 51, 0.06); }
+
+/* Botón de dos estados */
+.dos-estados { display: inline-flex; border: 1.5px solid var(--color-acento); border-radius: 8px; overflow: hidden; }
+.dos-estados button {
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border: none;
+  background: #fff;
+  color: var(--color-acento);
+  cursor: pointer;
+}
+.dos-estados button[aria-pressed="true"] { background: var(--color-acento); color: #fff; }
+
+/* Recuadro de información (al pasar el cursor o al tocar) */
+.informacion {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  max-width: 300px;
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(31, 41, 51, 0.22);
+  padding: 9px 11px;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+.informacion-titulo { font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
+.informacion-codigo { font-weight: 400; color: var(--color-texto-suave); margin-left: 8px; }
+.informacion-fila { display: flex; justify-content: space-between; gap: 16px; }
+.informacion-fila span { color: var(--color-texto-suave); }
+.informacion-fila strong { text-align: right; }
+
+/* Vista ampliada */
+.ampliado {
+  width: min(96vw, 1500px);
+  height: 94vh;
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  color: var(--color-texto);
+  overflow: hidden;
+}
+.ampliado::backdrop { background: rgba(31, 41, 51, 0.55); }
+.ampliado-interior { height: 100%; display: flex; flex-direction: column; padding: 18px 22px 14px; }
+.ampliado .cuadro-titulo { font-size: 20px; }
+.ampliado .cuadro-subtitulo { font-size: 14.5px; }
+.ampliado .cuadro-grafico { flex: 1 1 0; min-height: 0; overflow: hidden; }
+.ampliado .cuadro-leyenda { font-size: 13.5px; }
+.ampliado .cuadro-nota { margin-top: 0; }
+
+.aviso-error { margin: 20px 0; padding: 12px 14px; background: #FDECEC; border: 1px solid #E5A3A3; border-radius: 8px; }
+
+/* ---------- Ventanas medianas ----------
+   Entre el ancho de celular y el ancho medio (js/parametros.js): en las fajas
+   que lo piden, dos cuadros arriba y uno abajo, a todo el ancho. */
+body.medio .faja-cuadros { grid-template-columns: var(--columnas-medio, var(--columnas)); }
+body.medio .faja-cuadros > .entero-en-medio { grid-column: 1 / -1; order: 1; }
+
+/* ---------- Formato de celular ---------- */
+body.celular .contenido { padding: 0 12px; }
+body.celular .encabezado { padding: 18px 0 14px; }
+body.celular .encabezado-columnas { grid-template-columns: 1fr; gap: 8px; }
+body.celular .encabezado h1 { font-size: 23px; }
+body.celular .descripcion { font-size: 15px; }
+body.celular .faja-filtros { padding: 8px 0; }
+body.celular .filtros { grid-template-columns: 1fr; gap: 6px; }
+body.celular .filtro label { display: none; }
+body.celular .rotulo-filtro { display: none; }
+body.celular .solo-celular { display: inline; color: var(--color-texto-suave); }
+body.celular .agregado { min-height: 0; font-size: 13.5px; gap: 2px 10px; }
+body.celular .filtro-agregado { order: 2; }
+body.celular .filtro-provincia { order: 3; }
+body.celular .faja { margin-top: 22px; scroll-margin-top: 150px; }
+body.celular .faja-cabecera h2 { font-size: 19px; }
+body.celular .faja-cuadros { grid-template-columns: 1fr; gap: 12px; }
+body.celular .faja-cabecera p { font-size: 14px; }
+body.celular .cuadro-cara { padding: 12px 10px 10px; }
+body.celular .cuadro-vacio { min-height: 110px; }
+body.celular .seccion-final { padding: 14px 12px; }
+body.celular .columnas-metodologia { grid-template-columns: 1fr; }
+body.celular .columna-limites { margin-top: 16px; }
+/* Insumos, en el celular: cada insumo en un bloque, con el rótulo delante de cada dato. */
+body.celular .tabla-insumos thead { display: none; }
+body.celular .tabla-insumos tr, body.celular .tabla-insumos th, body.celular .tabla-insumos td { display: block; width: auto; }
+body.celular .tabla-insumos tbody th { padding: 10px 0 2px; }
+body.celular .tabla-insumos td { border-top: none; padding: 2px 0; }
+body.celular .tabla-insumos td:last-child { width: auto; padding-bottom: 10px; }
+body.celular .tabla-insumos td::before { content: attr(data-rotulo) ": "; font-weight: 600; color: var(--color-texto); }
+body.celular .ampliado-metodologia .reverso-cuerpo { --letra-base: 14.5px; }
+body.celular .correspondencia-busqueda { flex-wrap: wrap; gap: 6px 12px; }
+body.celular .ampliado { width: 100vw; height: 100dvh; border-radius: 0; }
+body.celular .ampliado-interior { padding: 12px 10px 10px; }
+body.celular .ampliado .cuadro-titulo { font-size: 16px; }
+body.celular .ampliado .cuadro-subtitulo { font-size: 13px; }
